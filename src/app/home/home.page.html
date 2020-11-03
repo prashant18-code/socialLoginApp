@@ -1,20 +1,32 @@
-<ion-header [translucent]="true">
+<ion-header style="display: flex;" [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
+    <ion-title *ngIf="!displayProfile && !displayProfileGoogle">
+      Login
+    </ion-title>
+    <ion-title *ngIf="displayProfile || displayProfileGoogle">
+      Profile
     </ion-title>
   </ion-toolbar>
+  <ion-button style="margin: 5px;" *ngIf="displayProfile || displayProfileGoogle" (click)="logOut()">Log out</ion-button>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <!-- <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Blank</ion-title>
     </ion-toolbar>
-  </ion-header>
+  </ion-header> -->
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div *ngIf="!displayProfile && !displayProfileGoogle" id="container">
+    <ion-fab-button (click)="fbLogin()" color="primary"><ion-icon name="logo-facebook"></ion-icon></ion-fab-button>
+    <ion-fab-button (click)="googleLogin()" color="secondary"><ion-icon name="logo-google"></ion-icon></ion-fab-button>
   </div>
+  <img  *ngIf="displayProfile" src="{{userData.picture}}" alt="">
+  <ion-card-content  *ngIf="displayProfile">
+   <p style="font-size: large; font-weight: bold;">Name: {{userData.first_name}}</p>
+  </ion-card-content>
+  <ion-card-content  *ngIf="displayProfileGoogle">
+    <p style="font-size: large; font-weight: bold;">Email : {{userDataGoogle.email}}</p>
+    <p style="font-size: large; font-weight: bold;">Name : {{userDataGoogle.displayName}}</p>
+   </ion-card-content>
 </ion-content>
